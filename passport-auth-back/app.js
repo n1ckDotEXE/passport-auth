@@ -11,7 +11,7 @@ var passport = require("passport");
 require("dotenv").config();
 
 var indexRouter = require("./routes/index");
-var usersRouter = require("./users/users");
+var usersRouter = require("./routes/users/users");
 
 mongoose
 	.connect(process.env.MONGO_DB, {
