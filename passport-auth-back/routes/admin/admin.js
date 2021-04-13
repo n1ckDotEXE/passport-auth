@@ -7,6 +7,7 @@ var {
 	login,
 	updateProfile,
 	getAllUsersProfile,
+	createdUserUsingAdminRoute,
 } = require("./controller/adminController");
 
 router.post("/sign-up", signUp);
@@ -24,6 +25,15 @@ router.get(
 	getAllUsersProfile
 );
 
-router.post("/create-user-using-admin-route", createdUserUsingAdminRoute);
+router.post(
+	"/create-user-using-admin-route",
+	passport.authenticate("admin-auth", { session: false }),
+	createdUserUsingAdminRoute
+);
+
+router.delete(
+	"/delete-user-by-id-using-admin-route",
+	deleteUserByIdUsingAdminRoute
+);
 
 module.exports = router;
