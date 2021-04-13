@@ -105,7 +105,7 @@ const createUserUsingAdminRoute = async (req, res) => {
 	}
 };
 
-const deleteUserByIdUsingAdminRoute = async (req, res) => {
+const deleteUserByEmailUsingAdminRoute = async (req, res) => {
 	try {
 		let deletedUser = await User.findOneAndDelete({
 			email: req.body.email,
@@ -119,11 +119,31 @@ const deleteUserByIdUsingAdminRoute = async (req, res) => {
 		res.status(500).json({ message: e.message });
 	}
 };
+
+const updateUserByEmailUsingAdminRoute = async (req, res) => {
+	try {
+		let updatedUser = await User.findOneAndDelete(
+			{
+				email: req.body.email,
+			},
+			req.body,
+			{ new: true }
+		);
+
+		res.json({
+			message: "Updated user",
+			user: updatedUser,
+		});
+	} catch (e) {
+		res.status(500).json({ message: e.message });
+	}
+};
 module.exports = {
 	signUp,
 	login,
 	updateProfile,
 	getAllUsersProfile,
 	createUserUsingAdminRoute,
-	deleteUserByIdUsingAdminRoute,
+	deleteUserByEmailUsingAdminRoute,
+	updateUserByEmailUsingAdminRoute,
 };
