@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
+const AdminSchema = new mongoose.Schema({
   username: {
     type: String,
     trim: true,
@@ -15,10 +15,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  userCreated: {
+  adminCreated: {
     type: Date,
     default: new Date(),
   },
 });
 
-module.exports = mongoose.model("user", UserSchema);
+module.exports = mongoose.model("admin", AdminSchema);

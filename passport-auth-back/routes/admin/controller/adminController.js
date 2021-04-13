@@ -1,4 +1,4 @@
-const User = require("../model/User");
+const Admin = require("../model/Admin");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -7,17 +7,17 @@ const signUp = async (req, res) => {
     let genSalt = await bcrypt.genSalt(12);
     let hashedPassword = await bcrypt.hash(req.body.password, genSalt);
 
-    let createdUser = new User({
+    let createdAdmin = new Admin({
       email: req.body.email,
       username: req.body.username,
       password: hashedPassword,
     });
 
-    let savedCreatedUser = await createdUser.save();
+    let savedCreatedAdmin = await createdAdmin.save();
 
     res.json({
-      message: "User created",
-      user: savedCreatedUser,
+      message: "Admin created",
+      admin: savedCreatedAdmin,
     });
   } catch (e) {
     res.status(500).json({ message: e.message });
@@ -26,15 +26,15 @@ const signUp = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    let foundUser = await User.findOne({ email: req.body.email });
+    let foundAdmin = await Admin.findOne({ email: req.body.email });
 
-    if (!foundUser) {
-      throw { message: "User not found! please so sign up!" };
+    if (!foundAdmin) {
+      throw { message: "Admin not found! please so sign up!" };
     }
 
     let comparedPassword = await bcrypt.compare(
       req.body.password,
-      foundUser.password
+      foundAdmin.password
     );
 
     if (!comparedPassword) {
@@ -43,10 +43,10 @@ const login = async (req, res) => {
 
     let jwtToken = jwt.sign(
       {
-        email: foundUser.email,
-        username: foundUser.username,
+        email: foundAdmin.email,
+        username: foundAdmin.username,
       },
-      process.env.JWT_SECRET_STRING,
+      process.env.ADMIN_JWT_SECRET_STRING,
       {
         expiresIn: "1d",
       }
