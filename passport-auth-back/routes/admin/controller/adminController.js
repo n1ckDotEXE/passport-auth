@@ -1,6 +1,8 @@
-const Admin = require("../model/Admin");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
+const Admin = require("../model/Admin");
+const User = require("../../users/model/User");
 
 const signUp = async (req, res) => {
   try {
@@ -71,8 +73,22 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const getAllUsersProfile = async (req, res) => {
+  try {
+    let allUsersProfile = await User.find({});
+
+    res.json({
+      message: "Got all users",
+      users: allUsersProfile,
+    });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
 module.exports = {
   signUp,
   login,
   updateProfile,
+  getAllUsersProfile,
 };
